@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.csabacsete.boilerplateproject"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+def ext = [
+        support               : "25.2.0",
+        glide                 : '3.7.0',
+        glideOkHttpIntegration: "1.4.0@aar",
+        uCrop                 : "2.2.0-native",
+        espresso              : "2.2.2",
+        retrofit              : "2.1.0",
+        libphonenumber        : "7.3.0",
+        eventBus              : "3.0.0",
+        timber                : "4.1.2",
+        stetho                : "1.3.1",
+        tray                  : "1.0.0-rc3",
+        instabug              : "4.0.1",
+        hockeyApp             : "4.1.2",
+        butterknife           : "8.4.0"
+]
+
+dependencies {
+    compile fileTree(dir: 'parent/libs', include: ['*.jar'])
+
+    // Android Support
+    compile "com.android.support:design:$ext.support"
+
+    // View Binding
+    compile "com.jakewharton:butterknife:$ext.butterknife"
+    apt "com.jakewharton:butterknife-compiler:$ext.butterknife"
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+}
