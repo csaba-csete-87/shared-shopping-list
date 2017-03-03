@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject;
+package com.csabacsete.sharedshoppinglist;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,6 +1,6 @@
-package com.csabacsete.boilerplateproject.login;
+package com.csabacsete.sharedshoppinglist.login;
 
-import com.csabacsete.boilerplateproject.base.BaseContract;
+import com.csabacsete.sharedshoppinglist.base.BaseContract;
 
 public interface LoginContract extends BaseContract {
 

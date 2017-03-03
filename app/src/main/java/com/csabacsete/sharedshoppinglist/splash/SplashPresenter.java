@@ -1,8 +1,8 @@
-package com.csabacsete.boilerplateproject.splash;
+package com.csabacsete.sharedshoppinglist.splash;
 
-import com.csabacsete.boilerplateproject.base.BaseContract;
-import com.csabacsete.boilerplateproject.data.Authenticator;
-import com.csabacsete.boilerplateproject.navigator.Navigator;
+import com.csabacsete.sharedshoppinglist.base.BaseContract;
+import com.csabacsete.sharedshoppinglist.data.Authenticator;
+import com.csabacsete.sharedshoppinglist.navigator.Navigator;
 
 public class SplashPresenter implements BaseContract.Presenter, Authenticator.WaitCallback {
 

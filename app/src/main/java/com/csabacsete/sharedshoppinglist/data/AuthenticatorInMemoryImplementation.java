@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject.data;
+package com.csabacsete.sharedshoppinglist.data;
 
 import android.os.AsyncTask;
 

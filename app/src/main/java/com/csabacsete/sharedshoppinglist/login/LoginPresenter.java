@@ -1,9 +1,9 @@
-package com.csabacsete.boilerplateproject.login;
+package com.csabacsete.sharedshoppinglist.login;
 
-import com.csabacsete.boilerplateproject.data.Authenticator;
-import com.csabacsete.boilerplateproject.navigator.Navigator;
-import com.csabacsete.boilerplateproject.utils.Constants;
-import com.csabacsete.boilerplateproject.utils.StringUtils;
+import com.csabacsete.sharedshoppinglist.data.Authenticator;
+import com.csabacsete.sharedshoppinglist.navigator.Navigator;
+import com.csabacsete.sharedshoppinglist.utils.Constants;
+import com.csabacsete.sharedshoppinglist.utils.StringUtils;
 
 public class LoginPresenter implements LoginContract.Presenter, Authenticator.LoginCallback {
 

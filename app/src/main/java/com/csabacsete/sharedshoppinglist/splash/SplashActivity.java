@@ -1,12 +1,12 @@
-package com.csabacsete.boilerplateproject.splash;
+package com.csabacsete.sharedshoppinglist.splash;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.csabacsete.boilerplateproject.R;
-import com.csabacsete.boilerplateproject.base.BaseContract;
-import com.csabacsete.boilerplateproject.data.AuthenticatorInMemoryImplementation;
-import com.csabacsete.boilerplateproject.navigator.NavigatorIntentImplementation;
+import com.csabacsete.sharedshoppinglist.R;
+import com.csabacsete.sharedshoppinglist.base.BaseContract;
+import com.csabacsete.sharedshoppinglist.data.AuthenticatorInMemoryImplementation;
+import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 
 public class SplashActivity extends Activity implements BaseContract.View {
 

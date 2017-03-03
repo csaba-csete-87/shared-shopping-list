@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject.login;
+package com.csabacsete.sharedshoppinglist.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -9,9 +9,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.csabacsete.boilerplateproject.R;
-import com.csabacsete.boilerplateproject.data.AuthenticatorInMemoryImplementation;
-import com.csabacsete.boilerplateproject.navigator.NavigatorIntentImplementation;
+import com.csabacsete.sharedshoppinglist.R;
+import com.csabacsete.sharedshoppinglist.data.AuthenticatorInMemoryImplementation;
+import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 
 import butterknife.BindInt;
 import butterknife.BindString;

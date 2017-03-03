@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject.data;
+package com.csabacsete.sharedshoppinglist.data;
 
 public interface Authenticator {
 

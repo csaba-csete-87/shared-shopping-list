@@ -1,10 +1,10 @@
-package com.csabacsete.boilerplateproject.navigator;
+package com.csabacsete.sharedshoppinglist.navigator;
 
 import android.content.Context;
 import android.content.Intent;
 
-import com.csabacsete.boilerplateproject.login.LoginActivity;
-import com.csabacsete.boilerplateproject.main.MainActivity;
+import com.csabacsete.sharedshoppinglist.login.LoginActivity;
+import com.csabacsete.sharedshoppinglist.main.MainActivity;
 
 public class NavigatorIntentImplementation implements Navigator {
 

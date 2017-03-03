@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject.utils;
+package com.csabacsete.sharedshoppinglist.utils;
 
 import java.util.regex.Pattern;
 

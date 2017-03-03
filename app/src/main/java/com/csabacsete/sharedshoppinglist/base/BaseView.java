@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject.base;
+package com.csabacsete.sharedshoppinglist.base;
 
 public interface BaseView {
 

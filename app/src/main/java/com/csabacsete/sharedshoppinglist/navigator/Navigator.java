@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject.navigator;
+package com.csabacsete.sharedshoppinglist.navigator;
 
 public interface Navigator {
 

@@ -1,9 +1,9 @@
-package com.csabacsete.boilerplateproject.main;
+package com.csabacsete.sharedshoppinglist.main;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.csabacsete.boilerplateproject.R;
+import com.csabacsete.sharedshoppinglist.R;
 
 public class MainActivity extends Activity {
 

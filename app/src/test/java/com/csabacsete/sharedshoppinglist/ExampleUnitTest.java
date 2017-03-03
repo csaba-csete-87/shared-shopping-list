@@ -1,4 +1,4 @@
-package com.csabacsete.boilerplateproject;
+package com.csabacsete.sharedshoppinglist;
 
 import org.junit.Test;
 
