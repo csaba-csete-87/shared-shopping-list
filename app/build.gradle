@@ -6,7 +6,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.csabacsete.boilerplateproject"
+        applicationId "com.csabacsete.sharedshoppinglist"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -15,7 +15,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -43,13 +43,28 @@ dependencies {
 
     // Android Support
     compile "com.android.support:design:$ext.support"
+    compile "com.android.support:appcompat-v7:$ext.support"
+    compile "com.android.support:support-v4:$ext.support"
+
+    // Firebase
+    compile 'com.google.firebase:firebase-auth:10.2.0'
+    compile 'com.google.firebase:firebase-crash:10.2.0'
+
+    // Google Play Services
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
 
     // View Binding
     compile "com.jakewharton:butterknife:$ext.butterknife"
     apt "com.jakewharton:butterknife-compiler:$ext.butterknife"
 
+    // Logging
+    compile "com.jakewharton.timber:timber:$ext.timber"
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

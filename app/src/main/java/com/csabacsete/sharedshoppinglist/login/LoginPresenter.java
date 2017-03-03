@@ -5,7 +5,7 @@ import com.csabacsete.sharedshoppinglist.navigator.Navigator;
 import com.csabacsete.sharedshoppinglist.utils.Constants;
 import com.csabacsete.sharedshoppinglist.utils.StringUtils;
 
-public class LoginPresenter implements LoginContract.Presenter, Authenticator.LoginCallback {
+public class LoginPresenter implements LoginContract.Presenter, Authenticator.LoginCallback, Authenticator.CreateAccountCallback {
 
     private Navigator navigator;
     private LoginContract.View view;
@@ -47,6 +47,22 @@ public class LoginPresenter implements LoginContract.Presenter, Authenticator.Lo
     }
 
     @Override
+    public void onGooglePlusButtonClicked() {
+        view.requestGoogleAccount();
+    }
+
+    @Override
+    public void onFacebookButtonClicked() {
+
+    }
+
+    @Override
+    public void onGoogleAccountSignedIn(String idToken) {
+        view.showProgress();
+        authenticator.loginWithGoogle(idToken, this);
+    }
+
+    @Override
     public void onPageLoaded() {
     }
 
@@ -70,8 +86,25 @@ public class LoginPresenter implements LoginContract.Presenter, Authenticator.Lo
     }
 
     @Override
-    public void onRequestError() {
+    public void onEmailDoesNotExist(String email, String password) {
+        authenticator.createAccount(email, password, this);
+    }
+
+    @Override
+    public void onRequestError(Throwable t) {
         view.hideProgress();
         view.showNetworkError();
+    }
+
+    @Override
+    public void onCreateAccountSuccess() {
+        view.hideProgress();
+        navigator.goToMain();
+    }
+
+    @Override
+    public void onCreateAccountError(Throwable t) {
+        view.hideProgress();
+        view.showCreateAccountError();
     }
 }

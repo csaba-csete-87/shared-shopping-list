@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.csabacsete.sharedshoppinglist.login.LoginActivity;
-import com.csabacsete.sharedshoppinglist.main.MainActivity;
+import com.csabacsete.sharedshoppinglist.main.ShoppingListsActivity;
 
 public class NavigatorIntentImplementation implements Navigator {
 
@@ -21,7 +21,7 @@ public class NavigatorIntentImplementation implements Navigator {
     }
 
     public void goToMain() {
-        Intent i = new Intent(context, MainActivity.class);
+        Intent i = new Intent(context, ShoppingListsActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }

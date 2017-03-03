@@ -8,13 +8,13 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
-        android:name="com.csabacsete.sharedshoppinglist.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.csabacsete.sharedshoppinglist.splash.SplashActivity">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,9 +22,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.csabacsete.sharedshoppinglist.main.MainActivity"/>
+            android:name=".login.LoginActivity"
+            android:label="@string/title_login"/>
         <activity
-            android:name="com.csabacsete.sharedshoppinglist.login.LoginActivity"/>
+            android:name=".main.ShoppingListsActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings">
+        </activity>
     </application>
 
 </manifest>

@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.base.BaseContract;
-import com.csabacsete.sharedshoppinglist.data.AuthenticatorInMemoryImplementation;
+import com.csabacsete.sharedshoppinglist.data.AuthenticatorFirebaseImplementation;
 import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 
-public class SplashActivity extends Activity implements BaseContract.View {
+public class SplashActivity extends Activity {
 
     private SplashPresenter presenter;
 
@@ -23,8 +22,7 @@ public class SplashActivity extends Activity implements BaseContract.View {
         super.onResume();
 
         presenter = new SplashPresenter(
-                this,
-                new AuthenticatorInMemoryImplementation(),
+                new AuthenticatorFirebaseImplementation(),
                 new NavigatorIntentImplementation(this)
         );
         presenter.onPageLoaded();
@@ -32,18 +30,9 @@ public class SplashActivity extends Activity implements BaseContract.View {
 
     @Override
     protected void onDestroy() {
+        presenter.teardown();
         presenter = null;
 
         super.onDestroy();
-    }
-
-    @Override
-    public void showProgress() {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
     }
 }

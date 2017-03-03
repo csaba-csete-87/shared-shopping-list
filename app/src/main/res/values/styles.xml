@@ -1,8 +1,36 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
     </style>
+
+    <style name="ShoppingListButton" parent="@style/Widget.AppCompat.Button">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="FacebookBlueTheme" parent="ShoppingListButton">
+        <item name="colorButtonNormal">@color/facebook</item>
+    </style>
+
+    <style name="GoogleRedTheme" parent="ShoppingListButton">
+        <item name="colorButtonNormal">@color/google</item>
+    </style>
+
+    <style name="TwitterBlueTheme" parent="ShoppingListButton">
+        <item name="colorButtonNormal">@color/twitter</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

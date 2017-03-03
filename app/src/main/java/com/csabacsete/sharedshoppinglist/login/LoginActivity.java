@@ -2,16 +2,24 @@ package com.csabacsete.sharedshoppinglist.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.data.AuthenticatorInMemoryImplementation;
+import com.csabacsete.sharedshoppinglist.base.BaseActivity;
+import com.csabacsete.sharedshoppinglist.data.AuthenticatorFirebaseImplementation;
 import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import butterknife.BindInt;
 import butterknife.BindString;
@@ -20,14 +28,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
-public class LoginActivity extends Activity implements LoginContract.View {
+public class LoginActivity extends BaseActivity implements LoginContract.View, GoogleApiClient.OnConnectionFailedListener {
+
+    private static final int RC_SIGN_IN = 9001;
 
     @BindView(R.id.email)
     EditText email;
 
     @BindView(R.id.password)
     EditText password;
-    private LoginContract.Presenter presenter;
 
     @BindView(R.id.login_form)
     View loginForm;
@@ -53,9 +62,28 @@ public class LoginActivity extends Activity implements LoginContract.View {
     @BindString(R.string.error_network)
     String errorNetwork;
 
+    @BindString(R.string.error_create_account)
+    String errorCreateAccount;
+
+    @BindString(R.string.error_google_sign_in)
+    String errorGoogleSignIn;
+
+    private LoginContract.Presenter presenter;
+    private GoogleApiClient googleApiClient;
+
     @OnClick(R.id.email_sign_in_button)
     void onSignInButtonClicked() {
         presenter.login();
+    }
+
+    @OnClick(R.id.google_plus_button)
+    void onGooglePlusButtonClicked() {
+        presenter.onGooglePlusButtonClicked();
+    }
+
+    @OnClick(R.id.facebook_button)
+    void onFacebookButtonClicked() {
+        presenter.onFacebookButtonClicked();
     }
 
     @OnEditorAction(R.id.password)
@@ -75,9 +103,19 @@ public class LoginActivity extends Activity implements LoginContract.View {
 
         presenter = new LoginPresenter(
                 this,
-                new AuthenticatorInMemoryImplementation(),
+                new AuthenticatorFirebaseImplementation(),
                 new NavigatorIntentImplementation(this)
         );
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     @Override
@@ -92,6 +130,22 @@ public class LoginActivity extends Activity implements LoginContract.View {
         presenter.teardown();
 
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount account = result.getSignInAccount();
+                presenter.onGoogleAccountSignedIn(account.getIdToken());
+            } else {
+                Toast.makeText(LoginActivity.this, errorGoogleSignIn, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -180,5 +234,21 @@ public class LoginActivity extends Activity implements LoginContract.View {
     @Override
     public void showNetworkError() {
         Toast.makeText(LoginActivity.this, errorNetwork, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCreateAccountError() {
+        Toast.makeText(LoginActivity.this, errorCreateAccount, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void requestGoogleAccount() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(LoginActivity.this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 }

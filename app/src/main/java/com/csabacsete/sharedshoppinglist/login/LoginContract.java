@@ -25,10 +25,20 @@ public interface LoginContract extends BaseContract {
         void showInvalidCredentials();
 
         void showNetworkError();
+
+        void showCreateAccountError();
+
+        void requestGoogleAccount();
     }
 
     interface Presenter extends BaseContract.Presenter {
 
         void login();
+
+        void onGooglePlusButtonClicked();
+
+        void onFacebookButtonClicked();
+
+        void onGoogleAccountSignedIn(String idToken);
     }
 }
