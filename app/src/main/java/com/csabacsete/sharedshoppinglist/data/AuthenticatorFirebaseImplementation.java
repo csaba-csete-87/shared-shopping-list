@@ -29,6 +29,23 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     }
 
     @Override
+    public User getCurrentUser() {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        return getUserFromFirebaseUser(firebaseUser);
+    }
+
+    private User getUserFromFirebaseUser(FirebaseUser firebaseUser) {
+        User u = new User();
+        u.setId(firebaseUser.getUid());
+        u.setDisplayName(firebaseUser.getDisplayName());
+        u.setEmail(firebaseUser.getEmail());
+        if (firebaseUser.getPhotoUrl() != null) {
+            u.setPhotoUrl(firebaseUser.getPhotoUrl().getPath());
+        }
+        return u;
+    }
+
+    @Override
     public void createAccount(String email, String password, final CreateAccountCallback callback) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

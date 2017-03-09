@@ -1,10 +1,9 @@
 package com.csabacsete.sharedshoppinglist.splash;
 
-import com.csabacsete.sharedshoppinglist.base.BaseContract;
 import com.csabacsete.sharedshoppinglist.data.Authenticator;
 import com.csabacsete.sharedshoppinglist.navigator.Navigator;
 
-public class SplashPresenter implements BaseContract.Presenter {
+public class SplashPresenter implements SplashContract.Presenter {
 
     private Authenticator authenticator;
     private Navigator navigator;
@@ -24,7 +23,7 @@ public class SplashPresenter implements BaseContract.Presenter {
     }
 
     @Override
-    public void teardown() {
+    public void onDestroy() {
         this.authenticator = null;
         this.navigator = null;
     }

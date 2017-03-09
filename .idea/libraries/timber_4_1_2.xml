@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="timber-4.1.2">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jakewharton.timber/timber/4.1.2/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jakewharton.timber/timber/4.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/1b599953b6c7513dc57fb800b61e7f54e8dc09b1/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1b599953b6c7513dc57fb800b61e7f54e8dc09b1/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

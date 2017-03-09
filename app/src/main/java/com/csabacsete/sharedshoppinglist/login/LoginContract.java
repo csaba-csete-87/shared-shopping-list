@@ -1,10 +1,8 @@
 package com.csabacsete.sharedshoppinglist.login;
 
-import com.csabacsete.sharedshoppinglist.base.BaseContract;
+public interface LoginContract {
 
-public interface LoginContract extends BaseContract {
-
-    interface View extends BaseContract.View {
+    interface View {
 
         String getEmail();
 
@@ -29,9 +27,13 @@ public interface LoginContract extends BaseContract {
         void showCreateAccountError();
 
         void requestGoogleAccount();
+
+        void showProgress();
+
+        void hideProgress();
     }
 
-    interface Presenter extends BaseContract.Presenter {
+    interface Presenter {
 
         void login();
 
@@ -40,5 +42,7 @@ public interface LoginContract extends BaseContract {
         void onFacebookButtonClicked();
 
         void onGoogleAccountSignedIn(String idToken);
+
+        void onDestroy();
     }
 }

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.base.BaseActivity;
-import com.csabacsete.sharedshoppinglist.data.AuthenticatorFirebaseImplementation;
 import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -103,7 +102,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, G
 
         presenter = new LoginPresenter(
                 this,
-                new AuthenticatorFirebaseImplementation(),
+                getAuthenticator(),
                 new NavigatorIntentImplementation(this)
         );
 
@@ -119,15 +118,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, G
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        presenter.onPageLoaded();
-    }
-
-    @Override
     protected void onDestroy() {
-        presenter.teardown();
+        presenter.onDestroy();
 
         super.onDestroy();
     }

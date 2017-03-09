@@ -2,6 +2,8 @@ package com.csabacsete.sharedshoppinglist.data;
 
 public interface Authenticator {
 
+    User getCurrentUser();
+
     interface CreateAccountCallback {
 
         void onCreateAccountSuccess();

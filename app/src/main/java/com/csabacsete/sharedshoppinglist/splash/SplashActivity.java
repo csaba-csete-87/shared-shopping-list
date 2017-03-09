@@ -7,7 +7,7 @@ import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.data.AuthenticatorFirebaseImplementation;
 import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends Activity implements SplashContract.View {
 
     private SplashPresenter presenter;
 
@@ -30,7 +30,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        presenter.teardown();
+        presenter.onDestroy();
         presenter = null;
 
         super.onDestroy();

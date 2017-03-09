@@ -63,11 +63,7 @@ public class LoginPresenter implements LoginContract.Presenter, Authenticator.Lo
     }
 
     @Override
-    public void onPageLoaded() {
-    }
-
-    @Override
-    public void teardown() {
+    public void onDestroy() {
         this.view = null;
         this.authenticator = null;
         this.navigator = null;

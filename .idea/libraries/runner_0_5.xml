@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="runner-0.5">
     <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support.test/runner/0.5/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/a34fc6bbdc65a23c9b7c3b5ca73e7f46f262becc/output/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support.test/runner/0.5/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support.test/runner/0.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/a34fc6bbdc65a23c9b7c3b5ca73e7f46f262becc/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/a34fc6bbdc65a23c9b7c3b5ca73e7f46f262becc/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
