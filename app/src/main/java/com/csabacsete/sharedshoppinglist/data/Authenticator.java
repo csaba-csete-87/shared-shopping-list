@@ -6,7 +6,7 @@ public interface Authenticator {
 
     interface CreateAccountCallback {
 
-        void onCreateAccountSuccess();
+        void onCreateAccountSuccess(String email);
 
         void onCreateAccountError(Throwable t);
     }
@@ -25,11 +25,6 @@ public interface Authenticator {
     }
 
     void loginWithCredentials(String email, String password, LoginCallback callback);
-
-    interface WaitCallback {
-
-        void onWaitFinished();
-    }
 
     void loginWithGoogle(String idToken, LoginCallback callback);
 

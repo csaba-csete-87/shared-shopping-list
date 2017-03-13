@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.base.BaseActivity;
-import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -102,8 +101,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, G
 
         presenter = new LoginPresenter(
                 this,
+                getRepository(),
                 getAuthenticator(),
-                new NavigatorIntentImplementation(this)
+                getNavigator()
         );
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -115,13 +115,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, G
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-    }
-
-    @Override
-    protected void onDestroy() {
-        presenter.onDestroy();
-
-        super.onDestroy();
     }
 
     @Override

@@ -6,8 +6,8 @@ import com.csabacsete.sharedshoppinglist.data.Authenticator;
 import com.csabacsete.sharedshoppinglist.data.AuthenticatorFirebaseImplementation;
 import com.csabacsete.sharedshoppinglist.data.Repository;
 import com.csabacsete.sharedshoppinglist.data.RepositoryFirebaseImplementation;
-import com.csabacsete.sharedshoppinglist.navigator.Navigator;
-import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
+import com.csabacsete.sharedshoppinglist.data.Storage;
+import com.csabacsete.sharedshoppinglist.data.StorageFirebaseImplementation;
 
 import timber.log.Timber;
 
@@ -16,6 +16,7 @@ public class App extends Application {
     private static App app;
     private Repository repository;
     private Authenticator authenticator;
+    private Storage storage;
 
     public static App getInstance() {
         return app;
@@ -39,14 +40,17 @@ public class App extends Application {
         return authenticator;
     }
 
-    public Navigator getNavigator() {
-        return new NavigatorIntentImplementation(this);
-    }
-
     public Repository getRepository() {
         if (repository == null) {
             repository = new RepositoryFirebaseImplementation();
         }
         return repository;
+    }
+
+    public Storage getStorage() {
+        if (storage == null) {
+            storage = new StorageFirebaseImplementation();
+        }
+        return storage;
     }
 }

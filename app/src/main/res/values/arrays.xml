@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="image_sources">
+        <item>Take photo</item>
+        <item>Pick from gallery</item>
+        <item>Cancel</item>
+    </string-array>
+</resources>

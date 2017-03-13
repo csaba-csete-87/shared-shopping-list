@@ -6,8 +6,6 @@ public interface Navigator {
 
     void goToLogin();
 
-    void goToMain();
-
     void goToLists();
 
     void goToMyInfo();
@@ -15,4 +13,8 @@ public interface Navigator {
     void goToShoppingList(ShoppingList shoppingList);
 
     void goToSettings();
+
+    void goToAddPeople(String shoppingListId);
+
+    void goBack();
 }

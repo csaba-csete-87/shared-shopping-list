@@ -1,6 +1,9 @@
 package com.csabacsete.sharedshoppinglist.shopping_list;
 
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
+import com.csabacsete.sharedshoppinglist.data.ShoppingListItem;
+
+import java.util.List;
 
 public interface ShoppingListContract {
 
@@ -20,12 +23,28 @@ public interface ShoppingListContract {
 
         void setTitle(String title);
 
-        void showGetListError();
+        void setItems(List<ShoppingListItem> listItems);
+
+        void setShoppingList(ShoppingList shoppingList);
+
+        List<ShoppingListItem> getShoppingListItems();
+
+        void showConfirmDeleteListDialog();
+
+        void showDeleteListError();
     }
 
     interface Presenter {
 
         void onPageLoaded();
+
+        void onFinishedEditing();
+
+        void onDeleteListClicked();
+
+        void onAddPeopleClicked();
+
+        void onConfirmDeleteShoppingList();
 
         void onDoneClicked();
     }

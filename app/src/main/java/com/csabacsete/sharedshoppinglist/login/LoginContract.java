@@ -42,7 +42,5 @@ public interface LoginContract {
         void onFacebookButtonClicked();
 
         void onGoogleAccountSignedIn(String idToken);
-
-        void onDestroy();
     }
 }

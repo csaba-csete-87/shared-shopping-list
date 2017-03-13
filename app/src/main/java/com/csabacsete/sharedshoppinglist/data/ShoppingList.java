@@ -3,27 +3,44 @@ package com.csabacsete.sharedshoppinglist.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class ShoppingList implements Parcelable {
 
     public String id;
     public String title;
-    public long timestamp;
+    public long created;
+    public long lastEdited;
+    public HashMap<String, Boolean> users;
+    public List<ShoppingListItem> listItems;
 
     public ShoppingList() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        setDefaults();
     }
 
     public ShoppingList(String title) {
-        this.id = UUID.randomUUID().toString();
         this.title = title;
-        this.timestamp = Calendar.getInstance().getTimeInMillis();
+        setDefaults();
+    }
+
+    private void setDefaults() {
+        this.id = UUID.randomUUID().toString();
+        this.created = Calendar.getInstance().getTimeInMillis();
+        this.lastEdited = created;
+        listItems = new ArrayList<>();
+        listItems.add(new ShoppingListItem());
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -34,14 +51,44 @@ public class ShoppingList implements Parcelable {
         this.title = title;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getCreated() {
+        return created;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
+    public long getLastEdited() {
+        return lastEdited;
+    }
+
+    public void setLastEdited(long lastEdited) {
+        this.lastEdited = lastEdited;
+    }
+
+    public HashMap<String, Boolean> getUsers() {
+        return users;
+    }
+
+    public void setUsers(HashMap<String, Boolean> users) {
+        this.users = users;
+    }
+
+    public List<ShoppingListItem> getListItems() {
+        return listItems;
+    }
+
+    public void setListItems(List<ShoppingListItem> listItems) {
+        this.listItems = listItems;
     }
 
     protected ShoppingList(Parcel in) {
         id = in.readString();
         title = in.readString();
-        timestamp = in.readLong();
+        created = in.readLong();
+        lastEdited = in.readLong();
+        users = (HashMap) in.readValue(HashMap.class.getClassLoader());
     }
 
     @Override
@@ -53,7 +100,9 @@ public class ShoppingList implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(title);
-        dest.writeLong(timestamp);
+        dest.writeLong(created);
+        dest.writeLong(lastEdited);
+        dest.writeValue(users);
     }
 
     @SuppressWarnings("unused")
@@ -68,4 +117,11 @@ public class ShoppingList implements Parcelable {
             return new ShoppingList[size];
         }
     };
+
+    public void addUser(String userId, boolean isOwner) {
+        if (users == null) {
+            users = new HashMap<>();
+        }
+        users.put(userId, isOwner);
+    }
 }

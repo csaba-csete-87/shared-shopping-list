@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".App"
@@ -25,14 +26,13 @@
             android:name=".login.LoginActivity"
             android:label="@string/title_login"/>
         <activity
-            android:name=".main.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings">
-        </activity>
+            android:label="@string/title_activity_settings"/>
+        <activity android:name=".add_user.AddPeopleActivity"/>
+        <activity android:name=".shopping_list.ShoppingListActivity"/>
+        <activity android:name=".shopping_lists.ShoppingListsActivity"/>
+        <activity android:name=".my_info.MyInfoActivity"/>
+        <activity android:name=".drawer.DrawerActivity"/>
     </application>
 
 </manifest>

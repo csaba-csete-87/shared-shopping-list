@@ -1,18 +1,22 @@
 package com.csabacsete.sharedshoppinglist.login;
 
 import com.csabacsete.sharedshoppinglist.data.Authenticator;
+import com.csabacsete.sharedshoppinglist.data.Repository;
+import com.csabacsete.sharedshoppinglist.data.User;
 import com.csabacsete.sharedshoppinglist.navigator.Navigator;
 import com.csabacsete.sharedshoppinglist.utils.Constants;
 import com.csabacsete.sharedshoppinglist.utils.StringUtils;
 
-public class LoginPresenter implements LoginContract.Presenter, Authenticator.LoginCallback, Authenticator.CreateAccountCallback {
+public class LoginPresenter implements LoginContract.Presenter, Authenticator.LoginCallback, Authenticator.CreateAccountCallback, Repository.CreateUserCallback {
 
-    private Navigator navigator;
-    private LoginContract.View view;
-    private Authenticator authenticator;
+    private final Navigator navigator;
+    private final Repository repository;
+    private final LoginContract.View view;
+    private final Authenticator authenticator;
 
-    public LoginPresenter(LoginContract.View view, Authenticator authenticator, Navigator navigator) {
+    public LoginPresenter(LoginContract.View view, Repository repository, Authenticator authenticator, Navigator navigator) {
         this.view = view;
+        this.repository = repository;
         this.authenticator = authenticator;
         this.navigator = navigator;
     }
@@ -63,16 +67,9 @@ public class LoginPresenter implements LoginContract.Presenter, Authenticator.Lo
     }
 
     @Override
-    public void onDestroy() {
-        this.view = null;
-        this.authenticator = null;
-        this.navigator = null;
-    }
-
-    @Override
     public void onLoginSuccess() {
         view.hideProgress();
-        navigator.goToMain();
+        navigator.goToLists();
     }
 
     @Override
@@ -93,14 +90,26 @@ public class LoginPresenter implements LoginContract.Presenter, Authenticator.Lo
     }
 
     @Override
-    public void onCreateAccountSuccess() {
-        view.hideProgress();
-        navigator.goToMain();
+    public void onCreateAccountSuccess(String email) {
+        String userId = authenticator.getCurrentUser().getId();
+        User user = new User(userId, email);
+        repository.saveUser(user, this);
     }
 
     @Override
     public void onCreateAccountError(Throwable t) {
         view.hideProgress();
         view.showCreateAccountError();
+    }
+
+    @Override
+    public void onSaveUserSuccess(User user) {
+        view.hideProgress();
+        navigator.goToLists();
+    }
+
+    @Override
+    public void onSaveUserError(Throwable t) {
+        view.hideProgress();
     }
 }

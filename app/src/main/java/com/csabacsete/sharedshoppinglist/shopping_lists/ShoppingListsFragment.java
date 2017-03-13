@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.base.BaseFragment;
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
-import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 
 import java.util.List;
 
@@ -52,10 +51,12 @@ public class ShoppingListsFragment extends BaseFragment implements ShoppingLists
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getActivity().setTitle(getString(R.string.my_lists));
+
         presenter = new ShoppingListsPresenter(
                 this,
                 getRepository(),
-                new NavigatorIntentImplementation(getActivity()),
+                getNavigator(),
                 getAuthenticator()
         );
     }

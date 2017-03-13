@@ -1,5 +1,7 @@
 package com.csabacsete.sharedshoppinglist.data;
 
+import java.util.HashMap;
+
 public class User {
 
     private String id;
@@ -9,6 +11,20 @@ public class User {
     private String email;
 
     private String photoUrl;
+
+    private HashMap<String, Boolean> shoppingLists;
+
+    public User() {
+    }
+
+    public User(String id, String email) {
+        this.id = id;
+        this.email = email;
+        String[] emailArray = email.split("@");
+        if (emailArray.length > 0) {
+            this.displayName = emailArray[0];
+        }
+    }
 
     public String getId() {
         return id;
@@ -40,5 +56,9 @@ public class User {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public HashMap<String, Boolean> getShoppingLists() {
+        return shoppingLists;
     }
 }

@@ -1,12 +1,16 @@
 package com.csabacsete.sharedshoppinglist.shopping_list;
 
-import com.csabacsete.sharedshoppinglist.data.Access;
 import com.csabacsete.sharedshoppinglist.data.Authenticator;
 import com.csabacsete.sharedshoppinglist.data.Repository;
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
+import com.csabacsete.sharedshoppinglist.data.ShoppingListItem;
 import com.csabacsete.sharedshoppinglist.navigator.Navigator;
 
-public class ShoppingListPresenter implements ShoppingListContract.Presenter, Repository.SaveShoppingListCallback, Repository.GetShoppingListCallback {
+import java.util.List;
+
+import timber.log.Timber;
+
+public class ShoppingListPresenter implements ShoppingListContract.Presenter, Repository.SaveShoppingListCallback, Repository.DeleteShoppingListCallback {
 
     private final ShoppingListContract.View view;
     private final Authenticator authenticator;
@@ -23,28 +27,53 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter, Re
     @Override
     public void onPageLoaded() {
         ShoppingList shoppingList = view.getShoppingList();
-        if (shoppingList != null) {
-            view.setTitle(shoppingList.getTitle());
+        if (shoppingList == null) {
+            shoppingList = new ShoppingList();
+            view.setShoppingList(shoppingList);
+        }
+        view.setTitle(shoppingList.getTitle());
+        view.setItems(shoppingList.getListItems());
+    }
+
+    @Override
+    public void onFinishedEditing() {
+        ShoppingList shoppingList = view.getShoppingList();
+
+        String title = view.getShoppingListTitle();
+        shoppingList.setTitle(title);
+
+        if (authenticator.isUserLoggedIn()) {
+            String userId = authenticator.getCurrentUser().getId();
+            shoppingList.addUser(userId, true);
+
+            List<ShoppingListItem> shoppingListItems = view.getShoppingListItems();
+            shoppingList.setListItems(shoppingListItems);
+
+            view.showProgress();
+            repository.saveShoppingList(shoppingList, this);
         }
     }
 
     @Override
-    public void onDoneClicked() {
-        ShoppingList shoppingList = view.getShoppingList();
-        String title = view.getShoppingListTitle();
+    public void onDeleteListClicked() {
+        view.showConfirmDeleteListDialog();
+    }
 
-        if (shoppingList != null) {
-            shoppingList.setTitle(title);
-        } else {
-            String userId = authenticator.getCurrentUser().getId();
-            shoppingList = new ShoppingList(title);
+    @Override
+    public void onAddPeopleClicked() {
+        String shoppingListId = view.getShoppingList().getId();
+        navigator.goToAddPeople(shoppingListId);
+    }
 
-            Access access = new Access("owner", shoppingList.getId(), userId);
-            repository.createShoppingList(shoppingList, access, this);
-        }
-
+    @Override
+    public void onConfirmDeleteShoppingList() {
         view.showProgress();
-        repository.updateShoppingList(shoppingList, this);
+        repository.deleteShoppingList(view.getShoppingList(), this);
+    }
+
+    @Override
+    public void onDoneClicked() {
+        navigator.goToLists();
     }
 
     @Override
@@ -56,17 +85,20 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter, Re
 
     @Override
     public void onSaveShoppingListError(Throwable t) {
+        Timber.e(t.getMessage());
         view.hideProgress();
         view.showSaveError();
     }
 
     @Override
-    public void onGetShoppingListSuccess(ShoppingList shoppingList) {
-        view.setTitle(shoppingList.getTitle());
+    public void onDeleteShoppingListSuccess() {
+        view.hideProgress();
+        navigator.goToLists();
     }
 
     @Override
-    public void onGetShoppingListError(Throwable t) {
-        view.showGetListError();
+    public void onDeleteShoppingListError(Throwable t) {
+        view.hideProgress();
+        view.showDeleteListError();
     }
 }

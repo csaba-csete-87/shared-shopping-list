@@ -10,7 +10,5 @@ public interface SplashContract {
     interface Presenter {
 
         void onPageLoaded();
-
-        void onDestroy();
     }
 }

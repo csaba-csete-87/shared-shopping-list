@@ -1,6 +1,6 @@
-package com.csabacsete.sharedshoppinglist.main;
+package com.csabacsete.sharedshoppinglist.drawer;
 
-public interface MainContract {
+public interface DrawerContract {
 
     interface View {
 
@@ -9,8 +9,6 @@ public interface MainContract {
         void setUserEmail(String email);
 
         void setUserImage(String photoUrl);
-
-        int getContainerId();
     }
 
     interface Presenter {
@@ -22,8 +20,6 @@ public interface MainContract {
         void onSettingsMenuItemClicked();
 
         void onLogoutMenuItemClicked();
-
-        void onDestroy();
 
         void onPageLoaded();
     }

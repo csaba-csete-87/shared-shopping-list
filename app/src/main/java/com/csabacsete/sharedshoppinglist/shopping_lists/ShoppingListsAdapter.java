@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
+import com.csabacsete.sharedshoppinglist.data.ShoppingListItem;
 
 import java.util.List;
 
@@ -35,7 +36,13 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public void onBindViewHolder(ShoppingListViewHolder holder, int position) {
-        holder.shoppingListTitle.setText(shoppingLists.get(position).getTitle());
+        ShoppingList shoppingList = shoppingLists.get(position);
+        holder.shoppingListTitle.setText(shoppingList.getTitle());
+        StringBuilder builder = new StringBuilder();
+        for (ShoppingListItem shoppingListItem : shoppingList.getListItems()) {
+            builder.append(shoppingListItem.getName()).append("\n");
+        }
+        holder.shoppingListPreview.setText(builder.toString());
     }
 
     @Override
@@ -47,6 +54,9 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
         @BindView(R.id.shopping_list_title)
         TextView shoppingListTitle;
+
+        @BindView(R.id.shopping_list_preview)
+        TextView shoppingListPreview;
 
         @OnClick(R.id.root)
         void onItemSelected() {

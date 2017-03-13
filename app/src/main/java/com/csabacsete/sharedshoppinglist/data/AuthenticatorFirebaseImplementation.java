@@ -15,9 +15,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import timber.log.Timber;
 
-/**
- * Created by ccsete on 3/3/17.
- */
 public class AuthenticatorFirebaseImplementation implements Authenticator, FirebaseAuth.AuthStateListener {
 
     private final FirebaseAuth auth;
@@ -35,10 +32,8 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     }
 
     private User getUserFromFirebaseUser(FirebaseUser firebaseUser) {
-        User u = new User();
-        u.setId(firebaseUser.getUid());
+        User u = new User(firebaseUser.getUid(), firebaseUser.getEmail());
         u.setDisplayName(firebaseUser.getDisplayName());
-        u.setEmail(firebaseUser.getEmail());
         if (firebaseUser.getPhotoUrl() != null) {
             u.setPhotoUrl(firebaseUser.getPhotoUrl().getPath());
         }
@@ -46,13 +41,13 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     }
 
     @Override
-    public void createAccount(String email, String password, final CreateAccountCallback callback) {
+    public void createAccount(final String email, String password, final CreateAccountCallback callback) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            callback.onCreateAccountSuccess();
+                            callback.onCreateAccountSuccess(email);
                         } else {
                             callback.onCreateAccountError(task.getException());
                         }
@@ -104,7 +99,7 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     @Override
     public boolean isUserLoggedIn() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return user != null && !StringUtils.isEmpty(user.getEmail());
+        return user != null && !StringUtils.isEmpty(user.getUid());
     }
 
     @Override

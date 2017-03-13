@@ -4,16 +4,41 @@ import java.util.List;
 
 public interface Repository {
 
-    void createShoppingList(ShoppingList shoppingList, Access access, SaveShoppingListCallback callback);
+    interface GetUserCallback {
 
-    interface GetShoppingListCallback {
+        void onGetUserSuccess(User user);
 
-        void onGetShoppingListSuccess(ShoppingList shoppingList);
-
-        void onGetShoppingListError(Throwable t);
+        void onGetUserError(Throwable t);
     }
 
-    void getShoppingListById(String listId, GetShoppingListCallback callback);
+    void getUserById(String userId, GetUserCallback callback);
+
+    interface DeleteShoppingListCallback {
+
+        void onDeleteShoppingListSuccess();
+
+        void onDeleteShoppingListError(Throwable t);
+    }
+
+    void deleteShoppingList(ShoppingList shoppingList, DeleteShoppingListCallback callback);
+
+    interface SavePendingCallback {
+
+        void onSavePendingSuccess();
+
+        void onSavePendingError(Throwable t);
+    }
+
+    void savePendingInvitations(List<Pending> pendingList, SavePendingCallback callback);
+
+    interface CreateUserCallback {
+
+        void onSaveUserSuccess(User user);
+
+        void onSaveUserError(Throwable t);
+    }
+
+    void saveUser(User user, CreateUserCallback callback);
 
     interface GetShoppingListsCallback {
 
@@ -31,5 +56,5 @@ public interface Repository {
         void onSaveShoppingListError(Throwable t);
     }
 
-    void updateShoppingList(ShoppingList shoppingList, SaveShoppingListCallback callback);
+    void saveShoppingList(ShoppingList shoppingList, SaveShoppingListCallback callback);
 }

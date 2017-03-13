@@ -16,15 +16,9 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void onPageLoaded() {
         if (authenticator.isUserLoggedIn()) {
-            navigator.goToMain();
+            navigator.goToLists();
         } else {
             navigator.goToLogin();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        this.authenticator = null;
-        this.navigator = null;
     }
 }

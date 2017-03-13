@@ -1,13 +1,11 @@
 package com.csabacsete.sharedshoppinglist.splash;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.data.AuthenticatorFirebaseImplementation;
-import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
+import com.csabacsete.sharedshoppinglist.base.BaseActivity;
 
-public class SplashActivity extends Activity implements SplashContract.View {
+public class SplashActivity extends BaseActivity implements SplashContract.View {
 
     private SplashPresenter presenter;
 
@@ -22,15 +20,14 @@ public class SplashActivity extends Activity implements SplashContract.View {
         super.onResume();
 
         presenter = new SplashPresenter(
-                new AuthenticatorFirebaseImplementation(),
-                new NavigatorIntentImplementation(this)
+                getAuthenticator(),
+                getNavigator()
         );
         presenter.onPageLoaded();
     }
 
     @Override
     protected void onDestroy() {
-        presenter.onDestroy();
         presenter = null;
 
         super.onDestroy();
