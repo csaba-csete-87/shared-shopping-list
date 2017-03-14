@@ -31,6 +31,10 @@ public class NavigatorIntentImplementation implements Navigator {
         Intent i = new Intent(activity, ShoppingListsActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(i);
+//
+//        Intent i = new Intent(activity, DrawerActivity.class);
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        activity.startActivity(i);
     }
 
     @Override

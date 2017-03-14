@@ -4,6 +4,7 @@ import com.csabacsete.sharedshoppinglist.data.Authenticator;
 import com.csabacsete.sharedshoppinglist.data.Repository;
 import com.csabacsete.sharedshoppinglist.data.User;
 import com.csabacsete.sharedshoppinglist.navigator.Navigator;
+import com.csabacsete.sharedshoppinglist.utils.StringUtils;
 
 public class DrawerPresenter implements DrawerContract.Presenter, Repository.GetUserCallback {
 
@@ -49,7 +50,9 @@ public class DrawerPresenter implements DrawerContract.Presenter, Repository.Get
     public void onGetUserSuccess(User user) {
         view.setUserName(user.getDisplayName());
         view.setUserEmail(user.getEmail());
-        view.setUserImage(user.getPhotoUrl());
+        if(!StringUtils.isEmpty(user.getPhotoUrl())) {
+            view.setUserImage(user.getPhotoUrl());
+        }
     }
 
     @Override

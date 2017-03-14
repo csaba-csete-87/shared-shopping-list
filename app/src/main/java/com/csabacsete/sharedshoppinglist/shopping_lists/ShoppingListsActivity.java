@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.csabacsete.sharedshoppinglist.drawer.DrawerActivity;
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
-import com.csabacsete.sharedshoppinglist.drawer.DrawerActivity;
 
 import java.util.List;
 
@@ -39,9 +39,10 @@ public class ShoppingListsActivity extends DrawerActivity implements ShoppingLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_shopping_lists);
+        setContentView(R.layout.activity_shopping_lists);
         ButterKnife.bind(this);
-        this.setTitle(getString(R.string.my_lists));
+
+        setTitle(getString(R.string.my_lists));
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         shoppingListsRecycler.setLayoutManager(layoutManager);

@@ -32,7 +32,11 @@
         <activity android:name=".shopping_list.ShoppingListActivity"/>
         <activity android:name=".shopping_lists.ShoppingListsActivity"/>
         <activity android:name=".my_info.MyInfoActivity"/>
-        <activity android:name=".drawer.DrawerActivity"/>
+        <activity
+            android:name=".drawer.DrawerActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

@@ -48,7 +48,7 @@ public class ShoppingListActivity extends DrawerActivity implements ShoppingList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_shopping_list);
+        setContentView(R.layout.activity_shopping_list);
         ButterKnife.bind(this);
 
         shoppingList = getIntent().getParcelableExtra(Constants.INTENT_EXTRA_SHOPPING_LIST);

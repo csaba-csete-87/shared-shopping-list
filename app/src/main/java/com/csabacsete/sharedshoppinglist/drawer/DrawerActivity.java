@@ -1,15 +1,16 @@
 package com.csabacsete.sharedshoppinglist.drawer;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.os.Handler;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,69 +18,25 @@ import com.bumptech.glide.Glide;
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.base.BaseActivity;
 
-import butterknife.ButterKnife;
-
 public class DrawerActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerContract.View {
 
-    protected Toolbar toolbar;
-    protected DrawerLayout drawerLayout;
-    protected NavigationView navigationView;
+    private static final int NAVDRAWER_LAUNCH_DELAY = 250;
+    private static final int MAIN_CONTENT_FADEOUT_DURATION = 250;
+    private DrawerContract.Presenter presenter;
     private TextView userAccountName;
     private TextView userAccountEmail;
     private ImageView userAccountImage;
-
-    private ActionBarDrawerToggle drawerToggle;
-    private DrawerContract.Presenter presenter;
-
-    public DrawerActivity() {
-    }
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
+    private Handler handler = new Handler();
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.activity_drawer);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        navigationView.setNavigationItemSelectedListener(this);
+    public void setContentView(@LayoutRes int layoutResID) {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        super.setContentView(layoutResID);
 
-        setupDrawerToggle();
+        setupToolbar();
         initDrawerFields();
-
-        presenter = new DrawerPresenter(
-                this,
-                getRepository(),
-                getAuthenticator(),
-                getNavigator()
-        );
-    }
-
-    private void initDrawerFields() {
-        userAccountName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_account_name);
-        userAccountEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_account_email);
-        userAccountImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_account_image);
-    }
-
-    private void setupDrawerToggle() {
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -89,9 +46,65 @@ public class DrawerActivity extends BaseActivity implements NavigationView.OnNav
         presenter.onPageLoaded();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        // TODO: 3/14/17 refactor this ugly logic into presenter
+        final int itemId = item.getItemId();
+        if (itemId == getCheckedItemId()) {
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
+
+        if (isSpecialItem(itemId)) {
+            goToNavDrawerItem(itemId);
+        } else {
+            // launch the target Activity after a short delay, to allow the close animation to play
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToNavDrawerItem(itemId);
+                }
+            }, NAVDRAWER_LAUNCH_DELAY);
+
+            // change the active item on the list so the user can see the item changed
+            setSelectedNavDrawerItem(itemId);
+            // fade out the main content
+            View mainContent = findViewById(R.id.content_main);
+            if (mainContent != null) {
+                mainContent.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
+            }
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    private void setSelectedNavDrawerItem(int itemId) {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (itemId == item.getItemId()) {
+                item.setChecked(true);
+            } else {
+                item.setChecked(false);
+            }
+        }
+    }
+
+    private void goToNavDrawerItem(int itemId) {
+        switch (itemId) {
             case R.id.nav_lists:
                 presenter.onListsMenuItemClicked();
                 break;
@@ -107,27 +120,22 @@ public class DrawerActivity extends BaseActivity implements NavigationView.OnNav
             default:
                 break;
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+    private boolean isSpecialItem(int itemId) {
+        return itemId == R.id.nav_logout;
+    }
+
+    private int getCheckedItemId() {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (item.isChecked()) {
+                return item.getItemId();
+            }
         }
-    }
 
-    @Override
-    protected void onDestroy() {
-        presenter = null;
-
-        super.onDestroy();
+        return -1;
     }
 
     @Override
@@ -145,5 +153,32 @@ public class DrawerActivity extends BaseActivity implements NavigationView.OnNav
         Glide.with(this)
                 .load(photoUrl)
                 .into(userAccountImage);
+    }
+
+    private void initDrawerFields() {
+        userAccountName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_account_name);
+        userAccountEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_account_email);
+        userAccountImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_account_image);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        presenter = new DrawerPresenter(
+                this,
+                getRepository(),
+                getAuthenticator(),
+                getNavigator()
+        );
     }
 }

@@ -21,7 +21,7 @@ public class ContactsCompletionTextView extends TokenCompleteTextView<Person> {
     protected View getViewForObject(Person person) {
 
         LayoutInflater l = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        TextView view = (TextView) l.inflate(R.layout.contact_token, (ViewGroup) getParent(), false);
+        TextView view = (TextView) l.inflate(R.layout.token_contact, (ViewGroup) getParent(), false);
         view.setText(person.getEmail());
 
         return view;

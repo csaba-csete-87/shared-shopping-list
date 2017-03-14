@@ -62,7 +62,7 @@ public class MyInfoActivity extends DrawerActivity implements MyInfoContract.Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_my_info);
+        setContentView(R.layout.activity_my_info);
         ButterKnife.bind(this);
         setTitle(getString(R.string.my_profile));
 
