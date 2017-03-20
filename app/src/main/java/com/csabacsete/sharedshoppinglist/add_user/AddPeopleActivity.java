@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.base.BaseActivity;
+import com.csabacsete.sharedshoppinglist.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

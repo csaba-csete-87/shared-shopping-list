@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.base.BaseActivity;
+import com.csabacsete.sharedshoppinglist.BaseActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;

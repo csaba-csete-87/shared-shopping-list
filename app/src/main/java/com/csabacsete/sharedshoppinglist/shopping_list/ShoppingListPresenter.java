@@ -29,29 +29,12 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter, Re
         ShoppingList shoppingList = view.getShoppingList();
         if (shoppingList == null) {
             shoppingList = new ShoppingList();
+            String userId = authenticator.getCurrentUser().getId();
+            shoppingList.addUser(userId, true);
             view.setShoppingList(shoppingList);
         }
         view.setTitle(shoppingList.getTitle());
         view.setItems(shoppingList.getListItems());
-    }
-
-    @Override
-    public void onFinishedEditing() {
-        ShoppingList shoppingList = view.getShoppingList();
-
-        String title = view.getShoppingListTitle();
-        shoppingList.setTitle(title);
-
-        if (authenticator.isUserLoggedIn()) {
-            String userId = authenticator.getCurrentUser().getId();
-            shoppingList.addUser(userId, true);
-
-            List<ShoppingListItem> shoppingListItems = view.getShoppingListItems();
-            shoppingList.setListItems(shoppingListItems);
-
-            view.showProgress();
-            repository.saveShoppingList(shoppingList, this);
-        }
     }
 
     @Override
@@ -73,6 +56,17 @@ public class ShoppingListPresenter implements ShoppingListContract.Presenter, Re
 
     @Override
     public void onDoneClicked() {
+        ShoppingList shoppingList = view.getShoppingList();
+
+        String title = view.getShoppingListTitle();
+        shoppingList.setTitle(title);
+
+        List<ShoppingListItem> shoppingListItems = view.getShoppingListItems();
+        shoppingList.setListItems(shoppingListItems);
+
+        view.showProgress();
+        repository.saveShoppingList(shoppingList, this);
+
         navigator.goToLists();
     }
 

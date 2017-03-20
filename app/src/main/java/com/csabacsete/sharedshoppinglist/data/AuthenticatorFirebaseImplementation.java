@@ -32,6 +32,9 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     }
 
     private User getUserFromFirebaseUser(FirebaseUser firebaseUser) {
+        if (firebaseUser == null) {
+            return null;
+        }
         User u = new User(firebaseUser.getUid(), firebaseUser.getEmail());
         u.setDisplayName(firebaseUser.getDisplayName());
         if (firebaseUser.getPhotoUrl() != null) {

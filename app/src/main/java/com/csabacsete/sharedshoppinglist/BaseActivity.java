@@ -1,4 +1,4 @@
-package com.csabacsete.sharedshoppinglist.base;
+package com.csabacsete.sharedshoppinglist;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -8,6 +8,7 @@ import com.csabacsete.sharedshoppinglist.App;
 import com.csabacsete.sharedshoppinglist.data.Authenticator;
 import com.csabacsete.sharedshoppinglist.data.Repository;
 import com.csabacsete.sharedshoppinglist.data.Storage;
+import com.csabacsete.sharedshoppinglist.image_loader.ImageLoader;
 import com.csabacsete.sharedshoppinglist.navigator.Navigator;
 import com.csabacsete.sharedshoppinglist.navigator.NavigatorIntentImplementation;
 
@@ -32,6 +33,10 @@ public class BaseActivity extends AppCompatActivity {
             navigator = new NavigatorIntentImplementation(this);
         }
         return navigator;
+    }
+
+    protected ImageLoader getImageLoader(){
+        return App.getInstance().getImageLoader();
     }
 
     @Override

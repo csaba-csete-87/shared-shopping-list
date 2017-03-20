@@ -3,7 +3,7 @@ package com.csabacsete.sharedshoppinglist.splash;
 import android.os.Bundle;
 
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.base.BaseActivity;
+import com.csabacsete.sharedshoppinglist.BaseActivity;
 
 public class SplashActivity extends BaseActivity implements SplashContract.View {
 

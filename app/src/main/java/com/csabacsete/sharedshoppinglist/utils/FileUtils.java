@@ -68,7 +68,7 @@ public class FileUtils {
 
     public static File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-        String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+        String imageFileName = JPEG_FILE_PREFIX + timeStamp;
         return File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, getAlbumDir());
     }
 

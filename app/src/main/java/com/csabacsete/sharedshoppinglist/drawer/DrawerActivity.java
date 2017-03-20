@@ -14,9 +14,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.csabacsete.sharedshoppinglist.BaseActivity;
 import com.csabacsete.sharedshoppinglist.R;
-import com.csabacsete.sharedshoppinglist.base.BaseActivity;
 
 public class DrawerActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerContract.View {
 
@@ -45,7 +44,6 @@ public class DrawerActivity extends BaseActivity implements NavigationView.OnNav
 
         presenter.onPageLoaded();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -150,9 +148,7 @@ public class DrawerActivity extends BaseActivity implements NavigationView.OnNav
 
     @Override
     public void setUserImage(String photoUrl) {
-        Glide.with(this)
-                .load(photoUrl)
-                .into(userAccountImage);
+        getImageLoader().loadInCircle(this, photoUrl, userAccountImage);
     }
 
     private void initDrawerFields() {

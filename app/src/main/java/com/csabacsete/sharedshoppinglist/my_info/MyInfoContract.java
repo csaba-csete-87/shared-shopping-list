@@ -12,7 +12,7 @@ public interface MyInfoContract {
 
         void hideProgress();
 
-        void setUserData(User user);
+        void setUser(User user);
 
         void showCouldNotGetUserError();
 
@@ -61,6 +61,10 @@ public interface MyInfoContract {
         void showPermissionsAreNeededForStorageDialog();
 
         void showCouldNotUpdateImageError();
+
+        void showUserName(String displayName);
+
+        void showUserEmail(String email);
     }
 
     interface Presenter {

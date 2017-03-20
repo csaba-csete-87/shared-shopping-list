@@ -38,8 +38,6 @@ public interface ShoppingListContract {
 
         void onPageLoaded();
 
-        void onFinishedEditing();
-
         void onDeleteListClicked();
 
         void onAddPeopleClicked();

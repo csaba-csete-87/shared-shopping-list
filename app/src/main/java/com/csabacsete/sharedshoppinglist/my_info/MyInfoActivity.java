@@ -17,7 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.data.User;
 import com.csabacsete.sharedshoppinglist.drawer.DrawerActivity;
@@ -147,10 +146,8 @@ public class MyInfoActivity extends DrawerActivity implements MyInfoContract.Vie
     }
 
     @Override
-    public void setUserData(User user) {
+    public void setUser(User user) {
         this.user = user;
-        email.setText(user.getEmail());
-        displayName.setText(user.getDisplayName());
     }
 
     @Override
@@ -183,9 +180,7 @@ public class MyInfoActivity extends DrawerActivity implements MyInfoContract.Vie
 
     @Override
     public void loadImage(String uri) {
-        Glide.with(this)
-                .load(uri)
-                .into(profileImage);
+        getImageLoader().loadInCircle(this, uri, profileImage);
     }
 
     @Override
@@ -224,13 +219,10 @@ public class MyInfoActivity extends DrawerActivity implements MyInfoContract.Vie
 
     @Override
     public void pickImageFromGallery() {
-        Intent pickMediaIntent = new Intent();
+        Intent pickMediaIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        pickMediaIntent.setType("image/*");
         pickMediaIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        pickMediaIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        pickMediaIntent.addCategory(Intent.CATEGORY_OPENABLE);
-        pickMediaIntent.setType("*/*");
-        pickMediaIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*"});
-        startActivityForResult(pickMediaIntent, Constants.REQUEST_PICK_PHOTO);
+        startActivityForResult(Intent.createChooser(pickMediaIntent, getString(R.string.complete_action_using)), Constants.REQUEST_PICK_PHOTO);
     }
 
     @Override
@@ -270,7 +262,7 @@ public class MyInfoActivity extends DrawerActivity implements MyInfoContract.Vie
     public void takePicture(File imageFile) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
-        startActivityForResult(takePictureIntent, Constants.REQUEST_TAKE_PHOTO);
+        startActivityForResult(Intent.createChooser(takePictureIntent, "Complete action using"), Constants.REQUEST_TAKE_PHOTO);
     }
 
     @Override
@@ -340,6 +332,16 @@ public class MyInfoActivity extends DrawerActivity implements MyInfoContract.Vie
     @Override
     public void showCouldNotUpdateImageError() {
         showErrorMessage(R.string.could_not_update_image);
+    }
+
+    @Override
+    public void showUserName(String displayName) {
+        this.displayName.setText(displayName);
+    }
+
+    @Override
+    public void showUserEmail(String email) {
+        this.email.setText(email);
     }
 
     private UCrop.Options getCropViewOptions() {

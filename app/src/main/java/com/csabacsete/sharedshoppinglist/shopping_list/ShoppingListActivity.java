@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShoppingListActivity extends DrawerActivity implements ShoppingListContract.View {
+public class ShoppingListActivity extends DrawerActivity implements ShoppingListContract.View, ListItemsAdapter.ItemAddedListener {
 
     private ShoppingListContract.Presenter presenter;
 
@@ -77,13 +77,6 @@ public class ShoppingListActivity extends DrawerActivity implements ShoppingList
     public void onResume() {
         super.onResume();
         presenter.onPageLoaded();
-    }
-
-    @Override
-    public void onPause() {
-        presenter.onFinishedEditing();
-
-        super.onPause();
     }
 
     @Override
@@ -141,7 +134,7 @@ public class ShoppingListActivity extends DrawerActivity implements ShoppingList
 
     @Override
     public void setItems(List<ShoppingListItem> listItems) {
-        adapter = new ListItemsAdapter(this, listItems);
+        adapter = new ListItemsAdapter(this, listItems, this);
         listItemsRecycler.setAdapter(adapter);
     }
 
@@ -180,5 +173,10 @@ public class ShoppingListActivity extends DrawerActivity implements ShoppingList
     @Override
     public void showDeleteListError() {
         Toast.makeText(this, getString(R.string.could_not_delete_list), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemAdded(int position) {
+        listItemsRecycler.scrollToPosition(position);
     }
 }

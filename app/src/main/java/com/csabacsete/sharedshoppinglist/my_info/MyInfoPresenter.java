@@ -5,6 +5,7 @@ import com.csabacsete.sharedshoppinglist.data.Repository;
 import com.csabacsete.sharedshoppinglist.data.Storage;
 import com.csabacsete.sharedshoppinglist.data.User;
 import com.csabacsete.sharedshoppinglist.utils.Constants;
+import com.csabacsete.sharedshoppinglist.utils.StringUtils;
 
 import java.io.File;
 
@@ -140,7 +141,12 @@ public class MyInfoPresenter implements MyInfoContract.Presenter, Repository.Get
     @Override
     public void onGetUserSuccess(User user) {
         view.hideProgress();
-        view.setUserData(user);
+        view.setUser(user);
+        view.showUserName(user.getDisplayName());
+        view.showUserEmail(user.getEmail());
+        if (!StringUtils.isEmpty(user.getPhotoUrl())) {
+            view.loadImage(user.getPhotoUrl());
+        }
     }
 
     @Override
@@ -151,7 +157,9 @@ public class MyInfoPresenter implements MyInfoContract.Presenter, Repository.Get
 
     @Override
     public void onFileUploadSuccess(String uri) {
-        view.loadImage(uri);
+        User u = authenticator.getCurrentUser();
+        u.setPhotoUrl(uri);
+        repository.saveUser(u, this);
     }
 
     @Override
@@ -162,6 +170,7 @@ public class MyInfoPresenter implements MyInfoContract.Presenter, Repository.Get
     @Override
     public void onSaveUserSuccess(User user) {
         view.showSaveUserSuccess();
+        onGetUserSuccess(user);
     }
 
     @Override

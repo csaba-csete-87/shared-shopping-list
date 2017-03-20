@@ -147,5 +147,6 @@
     <string name="storage_permissions_needed_message">In order to change your profile picture by using images from your gallery, SmartCare needs your permission to access the device\'s storage.</string>
     <string name="ok">OK</string>
     <string name="could_not_update_image">We could not update your profile picture, because for some reason the image could not be saved.</string>
+    <string name="complete_action_using">Complete action using</string>
 
 </resources>

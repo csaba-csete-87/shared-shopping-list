@@ -19,6 +19,8 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:background="@null"
+        android:imeActionId="@integer/action_enter"
+        android:imeOptions="actionNext"
         android:inputType="textAutoComplete"/>
 
     <ImageView

@@ -83,12 +83,25 @@ public class ShoppingList implements Parcelable {
         this.listItems = listItems;
     }
 
+    public void addUser(String userId, boolean isOwner) {
+        if (users == null) {
+            users = new HashMap<>();
+        }
+        users.put(userId, isOwner);
+    }
+
     protected ShoppingList(Parcel in) {
         id = in.readString();
         title = in.readString();
         created = in.readLong();
         lastEdited = in.readLong();
         users = (HashMap) in.readValue(HashMap.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            listItems = new ArrayList<ShoppingListItem>();
+            in.readList(listItems, ShoppingListItem.class.getClassLoader());
+        } else {
+            listItems = null;
+        }
     }
 
     @Override
@@ -103,6 +116,12 @@ public class ShoppingList implements Parcelable {
         dest.writeLong(created);
         dest.writeLong(lastEdited);
         dest.writeValue(users);
+        if (listItems == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(listItems);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -117,11 +136,4 @@ public class ShoppingList implements Parcelable {
             return new ShoppingList[size];
         }
     };
-
-    public void addUser(String userId, boolean isOwner) {
-        if (users == null) {
-            users = new HashMap<>();
-        }
-        users.put(userId, isOwner);
-    }
 }
