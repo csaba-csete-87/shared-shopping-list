@@ -47,6 +47,11 @@ public class DrawerPresenter implements DrawerContract.Presenter, Repository.Get
     }
 
     @Override
+    public void onAboutMenuItemClicked() {
+        navigator.goToAbout();
+    }
+
+    @Override
     public void onGetUserSuccess(User user) {
         view.setUserName(user.getDisplayName());
         view.setUserEmail(user.getEmail());

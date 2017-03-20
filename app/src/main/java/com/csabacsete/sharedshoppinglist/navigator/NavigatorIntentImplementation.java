@@ -3,6 +3,7 @@ package com.csabacsete.sharedshoppinglist.navigator;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.csabacsete.sharedshoppinglist.about.AboutActivity;
 import com.csabacsete.sharedshoppinglist.add_user.AddPeopleActivity;
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
 import com.csabacsete.sharedshoppinglist.login.LoginActivity;
@@ -70,5 +71,12 @@ public class NavigatorIntentImplementation implements Navigator {
     @Override
     public void goBack() {
         activity.onBackPressed();
+    }
+
+    @Override
+    public void goToAbout() {
+        Intent i = new Intent(activity, AboutActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(i);
     }
 }

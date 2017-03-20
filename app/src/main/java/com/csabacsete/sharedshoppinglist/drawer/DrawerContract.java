@@ -22,5 +22,7 @@ public interface DrawerContract {
         void onLogoutMenuItemClicked();
 
         void onPageLoaded();
+
+        void onAboutMenuItemClicked();
     }
 }

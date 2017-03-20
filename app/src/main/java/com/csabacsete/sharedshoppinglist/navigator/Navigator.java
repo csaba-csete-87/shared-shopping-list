@@ -17,4 +17,6 @@ public interface Navigator {
     void goToAddPeople(String shoppingListId);
 
     void goBack();
+
+    void goToAbout();
 }

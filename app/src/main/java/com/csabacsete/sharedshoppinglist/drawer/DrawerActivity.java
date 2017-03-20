@@ -112,6 +112,9 @@ public class DrawerActivity extends BaseActivity implements NavigationView.OnNav
             case R.id.nav_settings:
                 presenter.onSettingsMenuItemClicked();
                 break;
+            case R.id.nav_about:
+                presenter.onAboutMenuItemClicked();
+                break;
             case R.id.nav_logout:
                 presenter.onLogoutMenuItemClicked();
                 break;

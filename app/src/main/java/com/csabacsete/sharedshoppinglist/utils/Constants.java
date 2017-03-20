@@ -11,6 +11,7 @@ public class Constants {
 
     public static final String INTENT_EXTRA_LIST_ID = "listId";
     public static final String INTENT_EXTRA_SHOPPING_LIST = "shoppingList";
+    public static final String VERSION_FORMAT = "%s (Build number: %d) %s";
 
     private Constants() {
     }

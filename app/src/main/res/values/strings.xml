@@ -148,5 +148,7 @@
     <string name="ok">OK</string>
     <string name="could_not_update_image">We could not update your profile picture, because for some reason the image could not be saved.</string>
     <string name="complete_action_using">Complete action using</string>
+    <string name="connect_with_us">Connect with us</string>
+    <string name="developer_email">csaba.csete@gmail.com</string>
 
 </resources>
