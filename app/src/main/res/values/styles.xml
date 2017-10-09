@@ -31,12 +31,19 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
         <item name="android:colorPrimary">#00397F</item>
         <item name="android:colorAccent">#0AAEEF</item>
+        <item name="colorPrimary">#00397F</item>
+        <item name="colorAccent">#0AAEEF</item>
+    </style>
+
+    <style name="WhiteAccent" parent="@style/Widget.AppCompat.Button">
+        <item name="android:colorAccent">@android:color/white</item>
+        <item name="colorAccent">@android:color/white</item>
     </style>
 </resources>

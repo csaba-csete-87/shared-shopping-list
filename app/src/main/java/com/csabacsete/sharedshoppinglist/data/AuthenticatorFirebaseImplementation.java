@@ -46,14 +46,11 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     @Override
     public void createAccount(final String email, String password, final CreateAccountCallback callback) {
         auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            callback.onCreateAccountSuccess(email);
-                        } else {
-                            callback.onCreateAccountError(task.getException());
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        callback.onCreateAccountSuccess(email);
+                    } else {
+                        callback.onCreateAccountError(task.getException());
                     }
                 });
     }
@@ -61,21 +58,18 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     @Override
     public void loginWithCredentials(final String email, final String password, final LoginCallback callback) {
         auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Timber.d(task.getResult().getUser().getUid());
-                            callback.onLoginSuccess();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Timber.d(task.getResult().getUser().getUid());
+                        callback.onLoginSuccess();
+                    } else {
+                        if (task.getException() instanceof FirebaseAuthInvalidUserException) {
+                            callback.onEmailDoesNotExist(email, password);
+                        } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            callback.onInvalidCredentials();
                         } else {
-                            if (task.getException() instanceof FirebaseAuthInvalidUserException) {
-                                callback.onEmailDoesNotExist(email, password);
-                            } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                callback.onInvalidCredentials();
-                            } else {
-                                Timber.d(task.getException().toString());
-                                callback.onRequestError(task.getException());
-                            }
+                            Timber.d(task.getException().toString());
+                            callback.onRequestError(task.getException());
                         }
                     }
                 });
@@ -85,16 +79,13 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     public void loginWithGoogle(String idToken, final LoginCallback callback) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Timber.d(task.getResult().getUser().getUid());
-                            callback.onLoginSuccess();
-                        } else {
-                            Timber.d(task.getException().toString());
-                            callback.onRequestError(task.getException());
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Timber.d(task.getResult().getUser().getUid());
+                        callback.onLoginSuccess();
+                    } else {
+                        Timber.d(task.getException().toString());
+                        callback.onRequestError(task.getException());
                     }
                 });
     }

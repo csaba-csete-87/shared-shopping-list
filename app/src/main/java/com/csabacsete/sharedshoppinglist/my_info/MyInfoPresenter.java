@@ -58,7 +58,6 @@ public class MyInfoPresenter implements MyInfoContract.Presenter, Repository.Get
             default:
                 view.dismissDialog();
                 break;
-
         }
     }
 

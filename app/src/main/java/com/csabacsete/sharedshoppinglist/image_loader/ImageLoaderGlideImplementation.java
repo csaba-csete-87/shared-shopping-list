@@ -14,9 +14,6 @@ public class ImageLoaderGlideImplementation implements ImageLoader {
     public void loadInCircle(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .skipMemoryCache(false)
-                .transform(new CircleTransformation(context, 1, ContextCompat.getColor(context, R.color.colorPrimary)))
                 .into(imageView);
     }
 
@@ -24,8 +21,6 @@ public class ImageLoaderGlideImplementation implements ImageLoader {
     public void load(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .skipMemoryCache(false)
                 .into(imageView);
     }
 }

@@ -20,7 +20,7 @@
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
-    <string name="title_login">Sign In</string>
+    <string name="title_login">Login</string>
     <string name="error_google_sign_in">Failed to sign in with Google</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -86,7 +86,7 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value"/>
+    <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
@@ -150,5 +150,21 @@
     <string name="complete_action_using">Complete action using</string>
     <string name="connect_with_us">Connect with us</string>
     <string name="developer_email">csaba.csete@gmail.com</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="email_icon">Email icon</string>
+    <string name="password_icon">Password Icon</string>
+    <string name="title_register">Register</string>
+    <string name="by_tapping_register_you_agree">By tapping \"Register\" you agree to the</string>
+    <string name="terms_and_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="already_have_an_account">Already have an Account?</string>
+    <string name="password_confirm">Confirm Password</string>
+    <string name="background">Background</string>
+    <string name="don_t_have_account_yet">Don\'t have account yet?</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="or">Or</string>
+    <string name="register_with_social_platforms">Register with Social Platforms</string>
+    <string name="login_here">Login here</string>
 
 </resources>

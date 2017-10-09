@@ -19,7 +19,8 @@ public class RepositoryFirebaseImplementation implements Repository {
 
     @Override
     public void getUserById(String userId, final GetUserCallback callback) {
-        FirebaseDatabase.getInstance().getReference().child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 callback.onGetUserSuccess(dataSnapshot.getValue(User.class));
@@ -61,14 +62,11 @@ public class RepositoryFirebaseImplementation implements Repository {
 
     @Override
     public void saveUser(final User user, final CreateUserCallback callback) {
-        FirebaseDatabase.getInstance().getReference().child("users").child(user.getId()).setValue(user, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    callback.onSaveUserError(databaseError.toException());
-                } else {
-                    callback.onSaveUserSuccess(user);
-                }
+        FirebaseDatabase.getInstance().getReference().child("users").child(user.getId()).setValue(user, (databaseError, databaseReference) -> {
+            if (databaseError != null) {
+                callback.onSaveUserError(databaseError.toException());
+            } else {
+                callback.onSaveUserSuccess(user);
             }
         });
     }

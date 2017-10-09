@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.csabacsete.sharedshoppinglist">
+    package="com.csabacsete.sharedshoppinglist">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <!-- Camera features - recommended -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.flash"
-        android:required="false"/>
+        android:required="false" />
 
     <application
         android:name=".App"
@@ -28,36 +28,33 @@
         android:theme="@style/AppTheme">
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".login.LoginActivity"
-            android:label="@string/title_login"/>
-        <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings"/>
-        <activity android:name=".add_user.AddPeopleActivity"/>
-        <activity android:name=".shopping_list.ShoppingListActivity"/>
-        <activity android:name=".shopping_lists.ShoppingListsActivity"/>
-        <activity android:name=".my_info.MyInfoActivity"/>
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".add_user.AddPeopleActivity" />
+        <activity android:name=".shopping_list.ShoppingListActivity" />
+        <activity android:name=".shopping_lists.ShoppingListsActivity" />
+        <activity android:name=".my_info.MyInfoActivity" />
+        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".register.RegisterActivity" />
         <activity
             android:name=".drawer.DrawerActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="120610e008e021fa1cf0014d61bafb520d780048"/>
+            android:value="120610e008e021fa1cf0014d61bafb520d780048" />
 
-        <activity android:name=".about.AboutActivity">
-        </activity>
     </application>
 
 </manifest>
