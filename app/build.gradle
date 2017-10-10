@@ -62,8 +62,6 @@ dependencies {
     compile "com.google.firebase:firebase-storage:$playServices"
     // Google Play Services
     compile "com.google.android.gms:play-services-auth:$playServices"
-    // View Binding
-    compile 'com.jakewharton:butterknife:8.8.1'
 
     // Logging
     compile 'com.jakewharton.timber:timber:4.5.1'

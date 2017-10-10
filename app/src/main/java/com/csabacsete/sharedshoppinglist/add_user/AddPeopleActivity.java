@@ -7,14 +7,11 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.BaseActivity;
+import com.csabacsete.sharedshoppinglist.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AddPeopleActivity extends BaseActivity implements AddPeopleContract.View {
 
@@ -25,7 +22,6 @@ public class AddPeopleActivity extends BaseActivity implements AddPeopleContract
     }
 
     private static final String ARGUMENT_LIST_ID = "listId";
-    @BindView(R.id.contacts_autocomplete)
     ContactsCompletionTextView contactsCompletionView;
 
     private Person[] people;
@@ -37,7 +33,7 @@ public class AddPeopleActivity extends BaseActivity implements AddPeopleContract
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_people);
-        ButterKnife.bind(this);
+        contactsCompletionView = findViewById(R.id.contacts_autocomplete);
 
         people = new Person[]{
                 new Person("Marshall Weir", "marshall@example.com"),

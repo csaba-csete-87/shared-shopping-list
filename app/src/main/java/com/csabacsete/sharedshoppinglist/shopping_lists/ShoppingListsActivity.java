@@ -2,65 +2,49 @@ package com.csabacsete.sharedshoppinglist.shopping_lists;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.csabacsete.sharedshoppinglist.drawer.DrawerActivity;
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.data.ShoppingList;
+import com.csabacsete.sharedshoppinglist.drawer.DrawerActivity;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ShoppingListsActivity extends DrawerActivity implements ShoppingListsContract.View, ShoppingListsAdapter.ShoppingListSelectedListener {
 
     private ShoppingListsContract.Presenter presenter;
-
-    @BindView(R.id.shopping_lists_recycler)
-    RecyclerView shoppingListsRecycler;
-
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    @BindView(R.id.empty_list_placeholder_container)
-    View emptyPlaceholder;
-
-    @OnClick(R.id.create_list_fab)
-    void onNewListClicked(View view) {
-        presenter.onAddShoppingListButtonClicked();
-    }
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView shoppingListsRecycler;
+    private FloatingActionButton createListFab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_lists);
-        ButterKnife.bind(this);
 
         setTitle(getString(R.string.my_lists));
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        shoppingListsRecycler = findViewById(R.id.shopping_lists_recycler);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        createListFab = findViewById(R.id.create_list_fab);
+        createListFab.setOnClickListener(view -> presenter.onAddShoppingListButtonClicked());
         shoppingListsRecycler.setLayoutManager(layoutManager);
         shoppingListsRecycler.addItemDecoration(new ShoppingListsActivity.ItemDecorationAlbumColumns(24, 2));
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onPageLoaded();
-            }
-        });
-
         presenter = new ShoppingListsPresenter(
                 this,
                 getRepository(),
                 getNavigator(),
                 getAuthenticator()
         );
+
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.onPageLoaded());
     }
 
     @Override
@@ -93,7 +77,7 @@ public class ShoppingListsActivity extends DrawerActivity implements ShoppingLis
 
     @Override
     public void showEmptyView() {
-        emptyPlaceholder.setVisibility(View.VISIBLE);
+        Toast.makeText(ShoppingListsActivity.this, "Show empty placeholder", Toast.LENGTH_SHORT).show();
     }
 
     @Override

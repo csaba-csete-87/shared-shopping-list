@@ -2,27 +2,28 @@ package com.csabacsete.sharedshoppinglist.data;
 
 import android.support.annotation.NonNull;
 
+import com.csabacsete.sharedshoppinglist.App;
+import com.csabacsete.sharedshoppinglist.data.googleAuthSignin.GoogleAuthResponse;
+import com.csabacsete.sharedshoppinglist.data.googleAuthSignin.GoogleAuthUser;
+import com.csabacsete.sharedshoppinglist.data.googleAuthSignin.GoogleSignInHelper;
 import com.csabacsete.sharedshoppinglist.utils.StringUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
 import timber.log.Timber;
 
-public class AuthenticatorFirebaseImplementation implements Authenticator, FirebaseAuth.AuthStateListener {
+public class AuthenticatorFirebaseImplementation implements Authenticator, FirebaseAuth.AuthStateListener, GoogleAuthResponse {
 
     private final FirebaseAuth auth;
+    private final GoogleSignInHelper googleSignInHelper;
 
     public AuthenticatorFirebaseImplementation() {
         auth = FirebaseAuth.getInstance();
-
         auth.addAuthStateListener(this);
+        // TODO: 10/10/17 get client id
+        googleSignInHelper = new GoogleSignInHelper(App.getInstance().getApplicationContext(), null, this);
     }
 
     @Override
@@ -63,9 +64,8 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
                         Timber.d(task.getResult().getUser().getUid());
                         callback.onLoginSuccess();
                     } else {
-                        if (task.getException() instanceof FirebaseAuthInvalidUserException) {
-                            callback.onEmailDoesNotExist(email, password);
-                        } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                        if (task.getException() instanceof FirebaseAuthInvalidUserException
+                                || task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             callback.onInvalidCredentials();
                         } else {
                             Timber.d(task.getException().toString());
@@ -76,18 +76,17 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
     }
 
     @Override
-    public void loginWithGoogle(String idToken, final LoginCallback callback) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Timber.d(task.getResult().getUser().getUid());
-                        callback.onLoginSuccess();
-                    } else {
-                        Timber.d(task.getException().toString());
-                        callback.onRequestError(task.getException());
-                    }
-                });
+    public void loginWithGoogle() {
+    }
+
+    @Override
+    public void loginWithFacebook() {
+
+    }
+
+    @Override
+    public void loginWithTwitter() {
+
     }
 
     @Override
@@ -114,5 +113,20 @@ public class AuthenticatorFirebaseImplementation implements Authenticator, Fireb
         } else {
             Timber.d("user signed out");
         }
+    }
+
+    @Override
+    public void onGoogleAuthSignIn(GoogleAuthUser user) {
+
+    }
+
+    @Override
+    public void onGoogleAuthSignInFailed() {
+
+    }
+
+    @Override
+    public void onGoogleAuthSignOut(boolean isSuccess) {
+
     }
 }

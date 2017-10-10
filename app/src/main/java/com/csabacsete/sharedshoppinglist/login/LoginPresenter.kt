@@ -16,7 +16,7 @@ class LoginPresenter(private val view: LoginContract.View,
         view.goToRegister()
     }
 
-    override fun login() {
+    override fun onLoginButtonClicked() {
         val email = view.getEmail()
         val password = view.getPassword()
 
@@ -44,17 +44,16 @@ class LoginPresenter(private val view: LoginContract.View,
         authenticator.loginWithCredentials(email, password, this)
     }
 
-    override fun onGooglePlusButtonClicked() {
-        view.requestGoogleAccount()
+    override fun onGoogleButtonClicked() {
+        authenticator.loginWithGoogle()
     }
 
     override fun onFacebookButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        authenticator.loginWithFacebook()
     }
 
-    override fun onGoogleAccountSignedIn(idToken: String) {
-        view.showProgress()
-        authenticator.loginWithGoogle(idToken, this)
+    override fun onTwitterButtonClicked() {
+        authenticator.loginWithTwitter()
     }
 
     override fun onLoginSuccess() {
@@ -65,11 +64,6 @@ class LoginPresenter(private val view: LoginContract.View,
     override fun onInvalidCredentials() {
         view.hideProgress()
         view.showInvalidCredentials()
-    }
-
-    override fun onEmailDoesNotExist(email: String?, password: String?) {
-        view.hideProgress()
-        TODO("show error, move functionality to register screen")
     }
 
     override fun onRequestError(t: Throwable?) {

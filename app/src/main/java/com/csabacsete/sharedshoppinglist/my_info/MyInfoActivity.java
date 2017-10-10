@@ -14,6 +14,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,43 +27,31 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class MyInfoActivity extends DrawerActivity implements MyInfoContract.View {
 
     private static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
 
-    @BindView(R.id.display_name)
     TextInputEditText displayName;
-
-    @BindView(R.id.email)
     TextInputEditText email;
-
-    @BindView(R.id.profile_image)
     ImageView profileImage;
+    Button saveButton;
 
     private User user;
     private AlertDialog chooseMediaFragmentDialog;
     private MyInfoContract.Presenter presenter;
     private String currentPhotoPath;
 
-    @OnClick(R.id.profile_image)
-    void onProfileImageClicked() {
-        presenter.onProfileImageClicked();
-    }
-
-    @OnClick(R.id.button_save)
-    void onSaveButtonClicked() {
-        presenter.onSaveButtonClicked();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_info);
-        ButterKnife.bind(this);
+        displayName = findViewById(R.id.display_name);
+        email = findViewById(R.id.email);
+        profileImage = findViewById(R.id.profile_image);
+        profileImage.setOnClickListener(view -> presenter.onProfileImageClicked());
+        saveButton = findViewById(R.id.button_save);
+        saveButton.setOnClickListener(view -> presenter.onSaveButtonClicked());
+
         setTitle(getString(R.string.my_profile));
 
         presenter = new MyInfoPresenter(

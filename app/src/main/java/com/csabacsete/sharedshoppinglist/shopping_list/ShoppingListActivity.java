@@ -20,36 +20,23 @@ import com.csabacsete.sharedshoppinglist.utils.Constants;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class ShoppingListActivity extends DrawerActivity implements ShoppingListContract.View, ListItemsAdapter.ItemAddedListener {
 
     private ShoppingListContract.Presenter presenter;
 
-    @BindView(R.id.list_title)
     TextInputEditText editText;
-
-    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-
-    @BindView(R.id.list_items_recycler)
     RecyclerView listItemsRecycler;
 
     private ShoppingList shoppingList;
     private ListItemsAdapter adapter;
 
-    @OnClick(R.id.done_fab)
-    void onDoneFabButtonClicked() {
-        presenter.onDoneClicked();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
-        ButterKnife.bind(this);
+        editText = findViewById(R.id.list_title);
+        findViewById(R.id.done_fab).setOnClickListener(view -> presenter.onDoneClicked());
 
         shoppingList = getIntent().getParcelableExtra(Constants.INTENT_EXTRA_SHOPPING_LIST);
 
@@ -57,13 +44,11 @@ public class ShoppingListActivity extends DrawerActivity implements ShoppingList
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listItemsRecycler.setLayoutManager(layoutManager);
+        listItemsRecycler = findViewById(R.id.list_items_recycler);
+
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onPageLoaded();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.onPageLoaded());
 
         presenter = new ShoppingListPresenter(
                 this,

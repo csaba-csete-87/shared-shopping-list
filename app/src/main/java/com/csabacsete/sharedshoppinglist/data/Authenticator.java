@@ -19,14 +19,16 @@ public interface Authenticator {
 
         void onInvalidCredentials(); // password does not match existing email
 
-        void onEmailDoesNotExist(String email, String password); // email not found, create user
-
         void onRequestError(Throwable t); // network or server error
     }
 
     void loginWithCredentials(String email, String password, LoginCallback callback);
 
-    void loginWithGoogle(String idToken, LoginCallback callback);
+    void loginWithGoogle();
+
+    void loginWithFacebook();
+
+    void loginWithTwitter();
 
     boolean isUserLoggedIn();
 

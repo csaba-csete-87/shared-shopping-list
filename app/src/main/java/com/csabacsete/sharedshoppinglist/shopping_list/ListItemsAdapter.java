@@ -5,26 +5,19 @@ import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.view.KeyEvent;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.csabacsete.sharedshoppinglist.R;
 import com.csabacsete.sharedshoppinglist.data.ShoppingListItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnEditorAction;
-import butterknife.OnTextChanged;
 
 public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -121,54 +114,45 @@ public class ListItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     class AddNewRowViewHolder extends RecyclerView.ViewHolder {
 
-        @OnClick(R.id.add_item)
-        void onAddItemClicked() {
-            addListItem();
-        }
-
         public AddNewRowViewHolder(View itemView) {
             super(itemView);
-
-            ButterKnife.bind(this, itemView);
+            itemView.findViewById(R.id.add_item).setOnClickListener(view -> addListItem());
         }
     }
 
     class ShoppingListItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.item_bought)
         CheckBox checkBox;
-
-        @BindView(R.id.item_name)
         EditText itemName;
-
-        @OnClick(R.id.delete_item)
-        void onDeleteRowButtonClicked() {
-            removeListItem(getAdapterPosition());
-        }
-
-        @OnClick(R.id.item_bought)
-        void onCheckClicked() {
-            setItemChecked(getLayoutPosition(), checkBox.isChecked());
-        }
-
-        @OnTextChanged(R.id.item_name)
-        void onItemTextChanged(Editable editable) {
-            listItems.get(getLayoutPosition()).setName(editable.toString());
-        }
-
-        @OnEditorAction(R.id.item_name)
-        boolean onItemTextChanged(TextView v, int actionId, KeyEvent event) {
-            if (event == null && (actionId == context.getResources().getInteger(R.integer.action_enter) || actionId == EditorInfo.IME_ACTION_NEXT)) {
-                addListItem();
-                return true;
-            }
-            return true;
-        }
 
         public ShoppingListItemViewHolder(View itemView) {
             super(itemView);
+            itemView.findViewById(R.id.item_bought).setOnClickListener(view -> setItemChecked(getLayoutPosition(), checkBox.isChecked()));
+            itemView.findViewById(R.id.delete_item).setOnClickListener(view -> removeListItem(getAdapterPosition()));
+            checkBox = itemView.findViewById(R.id.item_bought);
+            itemName = itemView.findViewById(R.id.item_name);
+            itemName.setOnEditorActionListener((textView, actionId, event) -> {
+                        if (event == null && (actionId == context.getResources().getInteger(R.integer.action_enter) || actionId == EditorInfo.IME_ACTION_NEXT)) {
+                            addListItem();
+                            return true;
+                        }
+                        return false;
+                    }
+            );
+            itemName.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
-            ButterKnife.bind(this, itemView);
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    listItems.get(getLayoutPosition()).setName(editable.toString());
+                }
+            });
         }
     }
 

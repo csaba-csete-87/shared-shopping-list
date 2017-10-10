@@ -13,10 +13,6 @@ import com.csabacsete.sharedshoppinglist.data.ShoppingListItem;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdapter.ShoppingListViewHolder> {
 
     private final Context context;
@@ -52,21 +48,16 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     class ShoppingListViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.shopping_list_title)
-        TextView shoppingListTitle;
-
-        @BindView(R.id.shopping_list_preview)
-        TextView shoppingListPreview;
-
-        @OnClick(R.id.root)
-        void onItemSelected() {
-            listener.onShoppingListSelected(shoppingLists.get(getLayoutPosition()));
-        }
+        private final View root;
+        private final TextView shoppingListTitle;
+        private final TextView shoppingListPreview;
 
         public ShoppingListViewHolder(View itemView) {
             super(itemView);
-
-            ButterKnife.bind(this, itemView);
+            shoppingListTitle = itemView.findViewById(R.id.shopping_list_title);
+            shoppingListPreview = itemView.findViewById(R.id.shopping_list_preview);
+            root = itemView.findViewById(R.id.root);
+            root.setOnClickListener(v -> listener.onShoppingListSelected(shoppingLists.get(getLayoutPosition())));
         }
     }
 
